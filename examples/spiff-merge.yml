@@ -1,0 +1,62 @@
+---
+- hosts: 127.0.0.1
+  connection: local
+  gather_facts: false
+  tasks:
+   - name: spiff-ansible merge (expected to fail, no dest file provided)
+     ignore_errors: yes
+     spiff:
+       dest:
+       merge: sample.yml
+
+   - name: spiff-ansible merge (expected to fail, no files provided)
+     ignore_errors: yes
+     spiff:
+       dest: fail.out
+       merge:
+
+   - name: spiff-ansible merge single file
+     spiff:
+       dest: merge-single.out
+       merge:
+       - merge-test01.yml
+
+   - name: spiff-ansible merge single file (async)
+     spiff:
+       async: 1
+       dest: merge-single-async.out
+       merge:
+       - merge-test01.yml
+
+   - name: spiff-ansible merge two files
+     spiff:
+       dest: merge-two.out
+       merge:
+       - merge-test02-1.yml
+       - merge-test02-2.yml
+
+   - name: spiff-ansible merge two files (async)
+     spiff:
+       async: 1
+       dest: merge-two-async.out
+       merge:
+       - merge-test02-1.yml
+       - merge-test02-2.yml
+
+   - name: spiff-ansible merge to file and store result in a register
+     spiff:
+       dest: merge-register.out
+       merge:
+       - merge-test02-1.yml
+       - merge-test02-2.yml
+     register: merge_result
+
+   - name: write register to a file
+     copy:
+      content: "{{ merge_result }}"
+      dest: "./merge_result.out"
+
+   - name: output
+     debug:
+       msg: "{{ merge_result }}"
+

@@ -1,0 +1,23 @@
+fizz:
+  buzz:
+    foo: 1
+    bar: (( foo ))
+  bar: (( foo ))
+foo: 3
+bar: (( foo ))
+domain: example.com
+uri: (( "https://" domain ))
+resource_pools:
+  - name: mypool
+    size: (( auto ))
+
+jobs:
+  - name: myjob
+    resource_pool: mypool
+    instances: 2
+  - name: myotherjob
+    resource_pool: mypool
+    instances: 3
+  - name: yetanotherjob
+    resource_pool: otherpool
+    instances: 3

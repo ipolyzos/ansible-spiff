@@ -1,0 +1,11 @@
+{
+	"ImportPath": "github.com/ipolyzos/ansible-spiff",
+	"GoVersion": "go1.7",
+	"GodepVersion": "v78",
+	"Deps": [
+		{
+			"ImportPath": "github.com/lunixbochs/vtclean",
+			"Rev": "4fbf7632a2c6d3fbdb9931439bdbbeded02cbe36"
+		}
+	]
+}

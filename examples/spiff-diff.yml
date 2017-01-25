@@ -1,0 +1,60 @@
+---
+- hosts: 127.0.0.1
+  connection: local
+  gather_facts: false
+  tasks:
+   - name: spiff-ansible diff (expected to fail, no dest file provided)
+     ignore_errors: yes
+     spiff:
+       dest:
+       diff:
+       - diff-test01-1.yml
+       - diff-test01-2.yml
+
+   - name: spiff-ansible diff (expected to fail, no files provided)
+     ignore_errors: yes
+     spiff:
+       dest: fail.out
+       merge:
+
+   - name: spiff-ansible spiff single file (expected to fail, single file provided)
+     ignore_errors: yes
+     spiff:
+       dest: spiff-single.out
+       diff:
+       - diff-test01-1.yml
+
+   - name: spiff-ansible diff two files
+     spiff:
+       dest: diff-two.out
+       diff:
+       - diff-test01-1.yml
+       - diff-test01-2.yml
+
+   - name: spiff-ansible diff two files (async)
+     spiff:
+       async: 1
+       dest: diff-two-async.out
+       diff:
+       - diff-test01-1.yml
+       - diff-test01-2.yml
+
+   - name: spiff-ansible diff to file and store result in a register
+     spiff:
+       dest: diff-register.out
+       diff:
+       - diff-test01-1.yml
+       - diff-test01-2.yml
+     register: diff_result
+
+   - name: write register to a file
+     copy:
+      content: "{{ diff_result }}"
+      dest: "./diff_result.out"
+
+   - name: output
+     debug:
+       msg: "{{ diff_result }}"
+
+
+

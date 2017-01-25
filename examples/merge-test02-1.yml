@@ -1,0 +1,6 @@
+foo:
+  <<: (( merge ))
+  b: 3
+  c: 4
+mything:
+  complicated_structure: (( merge || foo.bar ))
